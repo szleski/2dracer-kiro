@@ -44,7 +44,7 @@
     - Create car update method for physics integration
     - _Requirements: 1.1, 1.2 - basic car entity_
   
-  - [ ] 4.2 Implement input handling for player car
+  - [x] 4.2 Implement input handling for player car
     - Create InputManager class for keyboard input
     - Map WASD/arrow keys to car controls (acceleration, steering, braking)
     - Implement smooth input handling with proper force application
