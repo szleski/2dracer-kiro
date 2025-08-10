@@ -19,6 +19,8 @@ Welcome to the documentation for the retro racing game project. This documentati
 - **[Code Style](../README.md#code-formatting)** - Formatting and type checking
 
 ### Demos & Examples
+
+- **[Car Entity Demo](../demo_car_entity.py)** - Complete car entity with physics and rendering
 - **[Car Physics Demo](../demo_car_physics.py)** - Interactive car physics demonstration
 - **[Rendering Demo](../demo_black_mamba_renderer.py)** - Black Mamba visual style showcase
 - **[Physics Engine Demo](../demo_physics_engine.py)** - Core physics system demonstration
@@ -37,7 +39,11 @@ Welcome to the documentation for the retro racing game project. This documentati
    ```
 
 3. **Try Demos**:
+
    ```bash
+   # Complete car entity (WASD to drive, SPACE to switch physics)
+   poetry run python demo_car_entity.py
+   
    # Car physics (WASD to drive, P to switch physics)
    poetry run python demo_car_physics.py
    
@@ -48,14 +54,17 @@ Welcome to the documentation for the retro racing game project. This documentati
 ## Implementation Status
 
 ### ✅ Completed Systems
-- **Physics Engine**: Core Pymunk integration with debug rendering
-- **Car Physics**: Dual physics models with realistic car simulation
-- **Black Mamba Renderer**: Retro visual style with geometric sprites
+
+- **[Physics Engine](../src/physics/physics_engine.py)**: Core Pymunk integration with debug rendering
+- **[Car Physics System](car-physics.md)**: Dual physics models with realistic car simulation  
+- **[Black Mamba Renderer](../src/rendering/black_mamba_renderer.py)**: Retro visual style with geometric sprites
+- **[Car Entity System](car-entity.md)**: Complete car implementation with physics integration
 - **Testing Framework**: Comprehensive test suites for all systems
 
 ### 🚧 In Development
-- **Game Entities**: Car and track entity implementations
+
 - **Input System**: Control mapping and input handling
+- **Track System**: Track representation and boundary generation
 - **Core Game Loop**: Scene management and game state
 
 ### 📋 Planned Systems

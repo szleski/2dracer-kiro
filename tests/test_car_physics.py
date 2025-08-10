@@ -31,7 +31,8 @@ class TestCarPhysicsConfig:
         
         assert config.mass == 800.0  # Lighter
         assert config.friction == 0.9  # Higher friction
-        assert config.max_force == 6000.0  # Higher force
+        assert config.max_force == 50000.0  # Higher force for racing speeds
+        assert config.max_torque == 400000.0  # Very high torque for responsive steering
         assert config.handling_degradation == 0.3  # Less degradation
     
     def test_realistic_preset(self):
@@ -40,7 +41,8 @@ class TestCarPhysicsConfig:
         
         assert config.mass == 1200.0  # Heavier
         assert config.friction == 0.6  # Lower friction
-        assert config.max_force == 4000.0  # Lower force
+        assert config.max_force == 35000.0  # Higher force for realistic acceleration
+        assert config.max_torque == 250000.0  # High torque for responsive steering
         assert config.handling_degradation == 0.7  # More degradation
 
 

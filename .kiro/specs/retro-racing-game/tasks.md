@@ -37,7 +37,7 @@
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 7.1, 7.2 - car physics and collision_
 
 - [ ] 4. Create basic car entity and player controls
-  - [ ] 4.1 Implement Car entity class
+  - [x] 4.1 Implement Car entity class
     - Create Car class integrating physics body with game logic
     - Add car state management (position, velocity, rotation)
     - Implement car rendering with basic sprite

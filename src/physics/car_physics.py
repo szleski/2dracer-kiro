@@ -47,11 +47,11 @@ class CarPhysicsPresets:
         return CarPhysicsConfig(
             mass=800.0,  # Lighter for more responsive feel
             friction=0.9,  # High friction for easy control
-            max_force=6000.0,  # Higher force for quick acceleration
-            max_torque=2500.0,  # Higher torque for sharp turns
-            linear_damping=0.15,  # More damping for stability
-            angular_damping=0.2,   # More angular damping
-            high_speed_threshold=250.0,  # Higher threshold
+            max_force=50000.0,  # Much higher force for racing speeds
+            max_torque=400000.0,  # Extremely high torque for arcade responsiveness
+            linear_damping=0.02,  # Much less damping for higher speeds
+            angular_damping=0.005,   # Minimal angular damping for very responsive turning
+            high_speed_threshold=400.0,  # Higher threshold for racing speeds
             handling_degradation=0.3,    # Less degradation
             collision_elasticity=0.4,    # More bouncy
             collision_friction=0.9       # High collision friction
@@ -63,11 +63,11 @@ class CarPhysicsPresets:
         return CarPhysicsConfig(
             mass=1200.0,  # Heavier, more realistic mass
             friction=0.6,  # Lower friction, more sliding
-            max_force=4000.0,  # Lower force, gradual acceleration
-            max_torque=1500.0,  # Lower torque, wider turns
-            linear_damping=0.05,  # Less damping, more momentum
-            angular_damping=0.05,  # Less angular damping
-            high_speed_threshold=180.0,  # Lower threshold
+            max_force=35000.0,  # Higher force for realistic acceleration
+            max_torque=250000.0,  # High torque for realistic but responsive steering
+            linear_damping=0.01,  # Very low damping for momentum
+            angular_damping=0.01,  # Very low angular damping for better turning
+            high_speed_threshold=300.0,  # Realistic high speed threshold
             handling_degradation=0.7,    # More degradation
             collision_elasticity=0.2,    # Less bouncy
             collision_friction=0.6       # Lower collision friction
@@ -100,8 +100,9 @@ class CarBody:
         self.space = space
         
         # Create Pymunk body and shape
+        # Use reduced moment of inertia for more responsive turning
         moment = pymunk.moment_for_box(self.config.mass, 
-                                     (self.config.width, self.config.height))
+                                     (self.config.width, self.config.height)) * 0.1
         self.body = pymunk.Body(self.config.mass, moment)
         self.body.position = position
         self.body.angle = angle
@@ -221,8 +222,12 @@ class CarBody:
         
         # Apply steering torque
         if abs(self.steering) > 0.01:
-            # Reduce steering effectiveness at high speeds
-            effective_steering = self.steering * speed_factor
+            # For arcade physics, maintain responsive steering at all speeds
+            # For realistic physics, reduce steering at very high speeds only
+            if speed > self.config.high_speed_threshold * 1.5:  # Only at very high speeds
+                effective_steering = self.steering * speed_factor
+            else:
+                effective_steering = self.steering
             
             # Apply steering torque
             torque = effective_steering * self.config.max_torque

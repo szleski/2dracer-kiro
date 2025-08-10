@@ -17,16 +17,20 @@ The `CarBody` class in `src/physics/car_physics.py` implements a complete car ph
 ### Arcade Physics
 - **Mass**: 800kg (lighter for responsiveness)
 - **Friction**: 0.9 (high grip for easy control)
-- **Max Force**: 6000N (quick acceleration)
-- **Max Torque**: 2500Nm (sharp turns)
-- **Handling Degradation**: 30% at high speeds
-- **Target Experience**: Fun, forgiving, accessible
+- **Max Force**: 50,000N (racing-level acceleration)
+- **Max Torque**: 400,000Nm (very responsive steering)
+- **Top Speed**: ~100 km/h (realistic racing speeds)
+- **Turn Rate**: ~30°/second (responsive arcade handling)
+- **Handling Degradation**: 30% at very high speeds only
+- **Target Experience**: Fun, responsive, racing-focused
 
 ### Realistic Physics
 - **Mass**: 1200kg (heavier, more momentum)
 - **Friction**: 0.6 (lower grip, more sliding)
-- **Max Force**: 4000N (gradual acceleration)
-- **Max Torque**: 1500Nm (wider turning radius)
+- **Max Force**: 35,000N (authentic acceleration curves)
+- **Max Torque**: 250,000Nm (realistic but responsive steering)
+- **Top Speed**: ~100 km/h (authentic performance)
+- **Turn Rate**: ~13°/second (more realistic handling)
 - **Handling Degradation**: 70% at high speeds
 - **Target Experience**: Challenging, authentic simulation
 
@@ -86,7 +90,7 @@ car.set_collision_callback(on_collision)
 ## Key Features
 
 ### Speed-Dependent Handling
-At high speeds (>200 px/s for arcade, >180 px/s for realistic), steering effectiveness is reduced to simulate realistic driving physics where cars become harder to control at speed.
+At very high speeds (>600 px/s for arcade, >450 px/s for realistic), steering effectiveness is reduced to simulate realistic driving physics where cars become harder to control at extreme speeds. Normal racing speeds maintain full steering responsiveness.
 
 ### Sliding Detection
 The system can detect when a car is sliding based on lateral velocity:
