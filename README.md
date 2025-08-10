@@ -38,9 +38,13 @@ This project uses Poetry for dependency management within a conda environment.
    poetry run python src/main.py
    ```
 
-4. Try the Black Mamba Racer rendering demo:
+4. Try the demos:
    ```bash
+   # Black Mamba Racer rendering demo
    poetry run python demo_black_mamba_renderer.py
+   
+   # Car physics demo (WASD to drive, P to switch physics, R to reset)
+   poetry run python demo_car_physics.py
    ```
 
 ## Development
@@ -68,6 +72,16 @@ poetry run pytest
 - Tire barriers and checkered pattern track elements
 - Clean typography and mini-map system
 - Comprehensive test suite with 16 passing tests
+
+### ✅ Car Physics System
+- Realistic car simulation using Pymunk physics engine
+- Dual physics models: Arcade (responsive, forgiving) and Realistic (challenging, momentum-based)
+- Speed-dependent handling degradation for authentic high-speed driving
+- Comprehensive collision detection with track boundaries and other cars
+- Force-based controls: throttle, steering, braking with proper physics integration
+- Runtime physics model switching for experimentation
+- Sliding detection and lateral/forward speed calculations
+- Comprehensive test suite with 20 passing tests
 
 ## Project Structure
 

@@ -22,14 +22,14 @@
     - _Requirements: 5.1, 5.2, 5.3, 5.4 - Black Mamba Racer aesthetics_
 
 - [ ] 3. Implement Pymunk physics engine integration
-  - [ ] 3.1 Create PhysicsEngine class with Pymunk space
+  - [x] 3.1 Create PhysicsEngine class with Pymunk space
     - Initialize pymunk.Space with appropriate settings
     - Implement physics world step function at 60 FPS
     - Create physics configuration system for different models
     - Add debug rendering for physics bodies
     - _Requirements: 1.2, 7.1 - physics simulation foundation_
   
-  - [ ] 3.2 Implement car physics with Pymunk bodies
+  - [x] 3.2 Implement car physics with Pymunk bodies
     - Create CarBody class with pymunk.Body and pymunk.Shape
     - Implement arcade and realistic physics configurations
     - Add force application for acceleration, braking, and steering
