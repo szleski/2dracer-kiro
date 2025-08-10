@@ -8,18 +8,18 @@
   - _Requirements: All requirements - foundational setup_
 
 - [ ] 2. Implement core game engine and basic rendering
-  - [ ] 2.1 Create GameEngine class with main game loop
+  - [x] 2.1 Create GameEngine class with main game loop
     - Implement 60 FPS game loop with pygame.time.Clock
     - Add basic scene management (menu, race, editor states)
     - Create event handling system for pygame events
     - _Requirements: 1.1, 1.2 - basic game loop for car control_
   
-  - [ ] 2.2 Implement basic Pygame rendering system
-    - Create Renderer class with pygame.Surface management
-    - Implement pixel-perfect scaling for retro aesthetics
-    - Add basic sprite loading and management
-    - Create retro color palette system
-    - _Requirements: 5.1, 5.4 - retro graphics rendering_
+  - [ ] 2.2 Implement Black Mamba Racer style rendering system
+    - Create BlackMambaRenderer class with pygame.Surface management
+    - Implement muted color palette (grays, whites, selective red/yellow accents)
+    - Add geometric car sprite generation (arrow-like shapes)
+    - Create clean, minimalist visual hierarchy system
+    - _Requirements: 5.1, 5.2, 5.3, 5.4 - Black Mamba Racer aesthetics_
 
 - [ ] 3. Implement Pymunk physics engine integration
   - [ ] 3.1 Create PhysicsEngine class with Pymunk space
@@ -59,12 +59,14 @@
     - Create track rendering system
     - _Requirements: 3.1, 3.2 - track foundation_
   
-  - [ ] 5.2 Create default non-oval racing track
+  - [ ] 5.2 Create default non-oval racing track with Black Mamba Racer visuals
     - Design and implement a track with curves, straights, and interesting features
-    - Add start/finish line and checkpoint segments
+    - Add tire barriers (black circular sprites) along track boundaries
+    - Implement checkered start/finish line pattern
+    - Add clean white boundary lines and subtle surface textures
     - Implement lap detection system using checkpoints
     - Test track with player car physics
-    - _Requirements: 3.1, 3.2, 3.3 - default track with lap detection_
+    - _Requirements: 3.1, 3.2, 3.3, 7.1, 7.5 - default track with Black Mamba Racer styling_
 
 - [ ] 6. Implement lap timing and race management
   - [ ] 6.1 Create RaceState and lap tracking system
@@ -74,12 +76,13 @@
     - Implement race position tracking
     - _Requirements: 3.3, 3.4, 6.1, 6.4 - lap timing and race management_
   
-  - [ ] 6.2 Create HUD for race information display
-    - Implement HUD class with retro-styled UI elements
-    - Display current lap time, lap count, and position
-    - Add real-time race information updates
-    - Use retro fonts and color palette
-    - _Requirements: 5.3, 6.1, 6.4 - race information display_
+  - [ ] 6.2 Create Black Mamba Racer style HUD and mini-map
+    - Implement HUD class with clean, minimalist UI elements
+    - Create mini-map in top-left corner showing track outline and car positions
+    - Display lap time (top-center), lap count (top-right) in clean sans-serif fonts
+    - Add semi-transparent backgrounds with high contrast text
+    - Use Black Mamba Racer color scheme (grays, whites, red accents)
+    - _Requirements: 5.4, 5.6, 6.1, 6.4, 7.2 - Black Mamba Racer HUD style_
 
 - [ ] 7. Implement basic AI car system
   - [ ] 7.1 Create AIDriver class with basic behavior
@@ -171,17 +174,17 @@
     - Create complete game flow from menu to race to results
     - _Requirements: 4.3 - complete game integration_
 
-- [ ] 13. Polish and optimization
-  - [ ] 13.1 Optimize performance for 60 FPS
-    - Profile physics simulation and rendering performance
-    - Optimize sprite rendering and memory usage
-    - Implement level-of-detail for complex tracks
-    - Add performance monitoring and frame rate display
-    - _Requirements: All requirements - performance optimization_
+- [ ] 13. Implement Black Mamba Racer visual effects
+  - [ ] 13.1 Add tire marks and camera system
+    - Implement subtle gray tire marks that fade over time
+    - Create smooth camera following system maintaining top-down perspective
+    - Add visual feedback for car movement and track interaction
+    - Implement proper visual layering (track, tire marks, cars, UI)
+    - _Requirements: 7.3, 7.4 - Black Mamba Racer visual effects_
   
-  - [ ] 13.2 Add final retro polish and effects
-    - Implement scanline effects and CRT-style filters
-    - Add particle effects for exhaust and sparks
-    - Create retro-style transitions and animations
-    - Fine-tune color palette and visual consistency
-    - _Requirements: 5.1, 5.4 - final retro aesthetics_
+  - [ ] 13.2 Polish visual hierarchy and performance
+    - Fine-tune color contrast and visual hierarchy for race information
+    - Optimize rendering performance for 60 FPS with multiple visual elements
+    - Add subtle surface texture variations without overwhelming detail
+    - Ensure consistent Black Mamba Racer aesthetic throughout all game modes
+    - _Requirements: 7.6, 5.1, 5.2, 5.3, 5.4 - final Black Mamba Racer polish_

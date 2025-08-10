@@ -165,7 +165,7 @@ Tracks are composed of connected segments with different properties:
 - Start/finish line segments
 - Checkpoint segments for lap detection
 
-**Track Properties:**
+**Track Properties (Black Mamba Racer Style):**
 
 ```python
 @dataclass
@@ -179,6 +179,7 @@ class TrackSegment:
     curvature: Optional[float] = None  # For curved segments
     banking: Optional[float] = None    # Track banking angle
     surface: str = 'asphalt'  # 'asphalt', 'dirt', 'grass' - affects friction
+    tire_barriers: List[Tuple[float, float]] = None  # Positions for tire barrier sprites
     
     def create_pymunk_bodies(self, space: pymunk.Space) -> List[pymunk.Body]:
         """Create Pymunk static bodies for track boundaries"""
@@ -186,7 +187,76 @@ class TrackSegment:
         # Create left and right boundary walls
         # Implementation details for converting segment to physics bodies
         return bodies
+    
+    def generate_tire_barriers(self) -> List[Tuple[float, float]]:
+        """Generate tire barrier positions along track edges"""
+        barriers = []
+        # Place tire barriers at regular intervals along track boundaries
+        # Following the Black Mamba Racer visual style
+        return barriers
+
+@dataclass
+class TrackVisuals:
+    """Visual elements for Black Mamba Racer style tracks"""
+    checkered_start_line: bool = True
+    tire_barrier_spacing: float = 30.0  # Distance between tire barriers
+    boundary_line_width: int = 2
+    surface_texture_intensity: float = 0.1  # Subtle texture variation
+    
+    # Color scheme matching Black Mamba Racer
+    colors = {
+        'asphalt': pygame.Color(128, 128, 128),
+        'grass': pygame.Color(74, 124, 89),
+        'dirt': pygame.Color(139, 69, 19),
+        'boundary': pygame.Color(255, 255, 255),
+        'tire_barrier': pygame.Color(32, 32, 32),
+        'checkered_black': pygame.Color(0, 0, 0),
+        'checkered_white': pygame.Color(255, 255, 255)
+    }
 ```
+
+### HUD and Mini-Map System
+
+**Mini-Map Design (Black Mamba Racer Style):**
+```python
+@dataclass
+class MiniMapConfig:
+    position: Tuple[int, int] = (10, 10)  # Top-left corner
+    size: Tuple[int, int] = (120, 80)     # Compact size
+    background_color: pygame.Color = pygame.Color(224, 224, 224, 200)
+    border_color: pygame.Color = pygame.Color(0, 0, 0)
+    track_color: pygame.Color = pygame.Color(128, 128, 128)
+    player_dot_color: pygame.Color = pygame.Color(255, 68, 68)
+    ai_dot_color: pygame.Color = pygame.Color(68, 68, 68)
+    
+class MiniMap:
+    def __init__(self, track: Track, config: MiniMapConfig):
+        self.track_outline = self.generate_track_outline(track)
+        self.config = config
+        
+    def render(self, surface: pygame.Surface, cars: List[Car]):
+        # Draw semi-transparent background
+        mini_surface = pygame.Surface(self.config.size, pygame.SRCALPHA)
+        mini_surface.fill(self.config.background_color)
+        
+        # Draw simplified track outline
+        pygame.draw.lines(mini_surface, self.config.track_color, False, self.track_outline, 2)
+        
+        # Draw car positions as colored dots
+        for car in cars:
+            dot_pos = self.world_to_minimap(car.position)
+            color = self.config.player_dot_color if car.is_player else self.config.ai_dot_color
+            pygame.draw.circle(mini_surface, color, dot_pos, 3)
+        
+        surface.blit(mini_surface, self.config.position)
+```
+
+**HUD Layout (Matching Black Mamba Racer):**
+- **Top-Left**: Mini-map with track outline and car positions
+- **Top-Center**: Current lap time in large, clear font
+- **Top-Right**: Lap counter (e.g., "LAP 1/3")
+- **Bottom**: Speed indicator and position information
+- **Clean Typography**: Sans-serif fonts, high contrast, minimal decoration
 
 ### Track Editor
 
@@ -245,16 +315,70 @@ class PhysicsEngine:
         self.config = config
 ```
 
-### Retro Visual Style
+### Black Mamba Racer Visual Style
 
-The retro aesthetic is achieved through Pygame's pixel-perfect rendering:
+The visual aesthetic follows the clean, minimalist approach of Black Mamba Racer:
 
-- **Pixel Art Sprites** - Low resolution car and track sprites loaded with pygame.image
-- **Limited Color Palette** - 16-color palette using pygame.Color with indexed colors
-- **Scanline Effects** - Surface blitting with alpha for CRT-style visual filters
-- **Pixelated Fonts** - Bitmap fonts loaded with pygame.font for UI text
-- **Particle Effects** - Simple geometric particles using pygame.draw for exhaust, sparks
-- **Pixel-Perfect Scaling** - pygame.transform.scale with NEAREST filtering
+**Color Palette:**
+- **Primary Colors** - Light gray (#E0E0E0), dark gray (#404040), white (#FFFFFF)
+- **Accent Colors** - Red (#FF4444) for player car, yellow (#FFFF44) for checkpoints
+- **Track Colors** - Asphalt gray (#808080), grass green (#4A7C59), dirt brown (#8B4513)
+- **UI Colors** - Black text (#000000) on light backgrounds for maximum readability
+
+**Car Design:**
+```python
+# Simple geometric car sprites - arrow-like shapes
+CAR_SPRITES = {
+    'player': {
+        'color': (255, 68, 68),  # Red
+        'shape': 'arrow',        # Simple triangular/arrow shape
+        'size': (20, 12)         # Small, clean proportions
+    },
+    'ai_cars': [
+        {'color': (68, 68, 68), 'shape': 'arrow', 'size': (20, 12)},   # Dark gray
+        {'color': (136, 136, 136), 'shape': 'arrow', 'size': (20, 12)} # Light gray
+    ]
+}
+```
+
+**Track Visual Elements:**
+- **Tire Barriers** - Black circular sprites arranged along track edges
+- **Checkered Patterns** - Start/finish line with alternating black/white squares
+- **Track Boundaries** - Clean white lines separating track from grass
+- **Surface Textures** - Subtle noise patterns for asphalt without overwhelming detail
+
+**UI Design:**
+- **Mini-Map** - Small track outline in corner showing car positions as colored dots
+- **HUD Elements** - Clean sans-serif fonts, minimal borders, high contrast
+- **Race Information** - Lap counter, timer, and position displayed unobtrusively
+- **Visual Hierarchy** - Important information (current lap time) larger and more prominent
+
+**Rendering Implementation:**
+```python
+class BlackMambaRenderer:
+    def __init__(self):
+        self.color_palette = {
+            'track_asphalt': pygame.Color(128, 128, 128),
+            'track_grass': pygame.Color(74, 124, 89),
+            'track_boundary': pygame.Color(255, 255, 255),
+            'tire_barrier': pygame.Color(32, 32, 32),
+            'player_car': pygame.Color(255, 68, 68),
+            'ai_car': pygame.Color(68, 68, 68),
+            'ui_text': pygame.Color(0, 0, 0),
+            'ui_background': pygame.Color(224, 224, 224, 180)  # Semi-transparent
+        }
+    
+    def draw_car(self, surface, car, camera_offset):
+        # Draw simple arrow-shaped car
+        points = self.get_arrow_points(car.position, car.rotation, car.size)
+        pygame.draw.polygon(surface, self.color_palette[car.color_key], points)
+        
+    def draw_tire_barriers(self, surface, barriers, camera_offset):
+        # Draw circular tire barriers along track edges
+        for barrier in barriers:
+            pos = (barrier.x - camera_offset.x, barrier.y - camera_offset.y)
+            pygame.draw.circle(surface, self.color_palette['tire_barrier'], pos, 8)
+```
 
 ## Error Handling
 

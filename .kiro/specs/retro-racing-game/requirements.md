@@ -52,14 +52,16 @@ This document outlines the requirements for a top-down view 2D racing game with 
 
 ### Requirement 5
 
-**User Story:** As a player, I want the game to have a retro aesthetic, so that I can enjoy nostalgic visuals that enhance the gaming experience.
+**User Story:** As a player, I want the game to have a retro aesthetic similar to classic mobile racing games like Black Mamba Racer, so that I can enjoy clean, minimalist visuals that enhance the racing experience.
 
 #### Acceptance Criteria
 
-1. WHEN the game renders graphics THEN it SHALL use pixel art or low-resolution sprites with retro color palettes
-2. WHEN sound effects play THEN they SHALL have a chiptune or 8-bit style characteristic of retro games
-3. WHEN the UI is displayed THEN it SHALL use retro-style fonts and interface elements
-4. WHEN visual effects occur THEN they SHALL maintain the retro aesthetic without modern high-resolution elements
+1. WHEN the game renders graphics THEN it SHALL use a muted color palette with grays, whites, and selective color accents (red, yellow)
+2. WHEN cars are displayed THEN they SHALL be simple geometric shapes (arrow-like sprites) rather than detailed vehicle graphics
+3. WHEN the track is rendered THEN it SHALL feature clean boundaries with checkered patterns, tire barriers, and clear visual separation
+4. WHEN the UI is displayed THEN it SHALL use clean, minimalist fonts and simple geometric elements
+5. WHEN sound effects play THEN they SHALL have a chiptune or 8-bit style characteristic of retro games
+6. WHEN the HUD is shown THEN it SHALL include essential race information (lap count, time, mini-map) in a clean, unobtrusive layout
 
 ### Requirement 6
 
@@ -73,6 +75,19 @@ This document outlines the requirements for a top-down view 2D racing game with 
 4. WHEN the player competes against AI THEN the game SHALL show real-time position and gap information
 
 ### Requirement 7
+
+**User Story:** As a player, I want visual elements that match the Black Mamba Racer aesthetic, so that I can experience the clean, focused racing environment of classic mobile racing games.
+
+#### Acceptance Criteria
+
+1. WHEN track boundaries are rendered THEN they SHALL use tire barriers (black circular elements) and checkered patterns for visual clarity
+2. WHEN the mini-map is displayed THEN it SHALL show a simplified track layout in the corner with current position indicators
+3. WHEN cars leave tire marks THEN they SHALL be subtle gray trails that fade over time
+4. WHEN the camera follows the player THEN it SHALL maintain a consistent top-down perspective with smooth movement
+5. WHEN track surfaces are rendered THEN they SHALL use subtle texture variations (asphalt gray, grass green) without overwhelming detail
+6. WHEN race elements are displayed THEN they SHALL use clear visual hierarchy with high contrast for important information
+
+### Requirement 8
 
 **User Story:** As a developer, I want to experiment with different car physics simulation approaches, so that I can find the most engaging and realistic driving feel.
 

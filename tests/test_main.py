@@ -2,74 +2,91 @@
 
 import pytest
 from unittest.mock import patch, MagicMock
-from src.main import GameApplication, main
+from src.main import main
+from src.core.game_engine import GameEngine, GameConfig, GameScene
+from src.core.scene_manager import MenuScene
 
 
-class TestGameApplication:
-    """Test cases for the GameApplication class."""
+class TestGameEngine:
+    """Test cases for the GameEngine integration."""
 
-    def test_game_application_init(self):
-        """Test GameApplication initialization."""
-        game = GameApplication()
-        assert game.screen is None
-        assert game.clock is None
-        assert game.running is False
+    def test_game_config_creation(self):
+        """Test GameConfig creation with default values."""
+        config = GameConfig()
+        assert config.window_width == 1024
+        assert config.window_height == 768
+        assert config.target_fps == 60
+        assert config.window_title == "Retro Racing Game"
 
     @patch("pygame.init")
     @patch("pygame.display.set_mode")
     @patch("pygame.display.set_caption")
     @patch("pygame.time.Clock")
-    def test_initialize_success(
-        self, mock_clock, mock_caption, mock_set_mode, mock_init
+    @patch("pygame.time.get_ticks")
+    def test_game_engine_initialization(
+        self, mock_get_ticks, mock_clock, mock_caption, mock_set_mode, mock_init
     ):
-        """Test successful game initialization."""
+        """Test GameEngine initialization."""
         mock_surface = MagicMock()
         mock_set_mode.return_value = mock_surface
         mock_clock_instance = MagicMock()
         mock_clock.return_value = mock_clock_instance
+        mock_get_ticks.return_value = 0
 
-        game = GameApplication()
-        result = game.initialize()
+        config = GameConfig()
+        engine = GameEngine(config)
+        result = engine.initialize()
 
         assert result is True
-        assert game.screen == mock_surface
-        assert game.clock == mock_clock_instance
+        assert engine.screen == mock_surface
+        assert engine.clock == mock_clock_instance
         mock_init.assert_called_once()
         mock_set_mode.assert_called_once_with((1024, 768))
         mock_caption.assert_called_once_with("Retro Racing Game")
 
-    @patch("pygame.init")
-    def test_initialize_failure(self, mock_init):
-        """Test game initialization failure."""
-        mock_init.side_effect = Exception("Pygame init failed")
+    def test_scene_registration(self):
+        """Test scene registration functionality."""
+        config = GameConfig()
+        engine = GameEngine(config)
+        menu_scene = MenuScene()
 
-        game = GameApplication()
+        engine.register_scene(GameScene.MENU, menu_scene)
 
-        # The initialize method should catch the exception and return False
-        with patch("builtins.print"):  # Suppress error output during test
-            result = game.initialize()
+        assert GameScene.MENU in engine.scenes
+        assert engine.scenes[GameScene.MENU] == menu_scene
 
-        assert result is False
+    def test_scene_change_request(self):
+        """Test scene change request functionality."""
+        config = GameConfig()
+        engine = GameEngine(config)
+
+        engine.change_scene(GameScene.RACE)
+
+        assert engine.next_scene == GameScene.RACE
+        assert engine.scene_transition_requested is True
 
 
 def test_main_function():
     """Test the main function entry point."""
-    with patch("src.main.GameApplication") as mock_game_class:
-        mock_game = MagicMock()
-        mock_game_class.return_value = mock_game
+    with patch("src.main.GameEngine") as mock_engine_class:
+        mock_engine = MagicMock()
+        mock_engine_class.return_value = mock_engine
 
         result = main()
 
         assert result == 0
-        mock_game.run.assert_called_once()
-        mock_game.cleanup.assert_called_once()
+        mock_engine.run.assert_called_once()
+        mock_engine.cleanup.assert_called_once()
+        # Verify scenes were registered
+        assert mock_engine.register_scene.call_count == 4
 
 
 def test_main_function_with_exception():
     """Test main function handles exceptions properly."""
-    with patch("src.main.GameApplication") as mock_game_class:
-        mock_game_class.side_effect = Exception("Test error")
+    with patch("src.main.GameEngine") as mock_engine_class:
+        mock_engine_class.side_effect = Exception("Test error")
 
-        result = main()
+        with patch("builtins.print"):  # Suppress error output during test
+            result = main()
 
         assert result == 1
