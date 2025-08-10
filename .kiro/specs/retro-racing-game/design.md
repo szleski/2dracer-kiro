@@ -78,7 +78,7 @@ src/
 │   ├── ai_driver.py           # AI car behavior and decision making
 │   └── path_finding.py        # Racing line calculation
 ├── rendering/
-│   ├── renderer.py            # Main rendering coordinator
+│   ├── black_mamba_renderer.py # Black Mamba Racer style rendering system
 │   ├── sprite_manager.py      # Sprite loading and management
 │   └── retro_effects.py       # Retro visual effects and filters
 ├── input/
@@ -354,30 +354,25 @@ CAR_SPRITES = {
 - **Visual Hierarchy** - Important information (current lap time) larger and more prominent
 
 **Rendering Implementation:**
+
+The BlackMambaRenderer class has been implemented with the following key features:
+
+- **Muted Color Palette**: Grays, whites, and selective red/yellow accents
+- **Geometric Car Sprites**: Arrow-like shapes with rotation and caching
+- **Track Elements**: Tire barriers and checkered patterns
+- **Clean UI System**: Typography hierarchy and mini-map functionality
+- **Surface Management**: Efficient pygame.Surface handling with UI overlay
+
 ```python
-class BlackMambaRenderer:
-    def __init__(self):
-        self.color_palette = {
-            'track_asphalt': pygame.Color(128, 128, 128),
-            'track_grass': pygame.Color(74, 124, 89),
-            'track_boundary': pygame.Color(255, 255, 255),
-            'tire_barrier': pygame.Color(32, 32, 32),
-            'player_car': pygame.Color(255, 68, 68),
-            'ai_car': pygame.Color(68, 68, 68),
-            'ui_text': pygame.Color(0, 0, 0),
-            'ui_background': pygame.Color(224, 224, 224, 180)  # Semi-transparent
-        }
-    
-    def draw_car(self, surface, car, camera_offset):
-        # Draw simple arrow-shaped car
-        points = self.get_arrow_points(car.position, car.rotation, car.size)
-        pygame.draw.polygon(surface, self.color_palette[car.color_key], points)
-        
-    def draw_tire_barriers(self, surface, barriers, camera_offset):
-        # Draw circular tire barriers along track edges
-        for barrier in barriers:
-            pos = (barrier.x - camera_offset.x, barrier.y - camera_offset.y)
-            pygame.draw.circle(surface, self.color_palette['tire_barrier'], pos, 8)
+# Example usage of the implemented BlackMambaRenderer
+from src.rendering.black_mamba_renderer import BlackMambaRenderer
+
+renderer = BlackMambaRenderer(800, 600)
+renderer.clear_screen()
+renderer.draw_car((400, 300), 45.0, renderer.colors.ACCENT_RED)
+renderer.draw_tire_barrier((200, 200), 12)
+renderer.draw_hud_text("Lap: 1/3", (20, 20), "medium")
+renderer.present()
 ```
 
 ## Error Handling
